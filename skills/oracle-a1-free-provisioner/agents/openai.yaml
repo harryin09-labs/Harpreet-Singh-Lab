@@ -1,0 +1,14 @@
+interface:
+  display_name: Oracle A1 Always Free Provisioner
+  short_description: Audit and safely automate Oracle A1 Free Tier VM setup
+  default_prompt: Set up Oracle A1 Always Free with 2 OCPU, 12 GB RAM and 100 GB boot
+    disk, safely.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

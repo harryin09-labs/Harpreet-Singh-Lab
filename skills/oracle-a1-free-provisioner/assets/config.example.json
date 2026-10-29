@@ -1,0 +1,15 @@
+{
+  "region":"REPLACE_REGION",
+  "compartment_id":"REPLACE_ROOT_OR_DEDICATED_COMPARTMENT_OCID",
+  "availability_domain":"REPLACE_AVAILABILITY_DOMAIN",
+  "instance_name":"max-free-a1",
+  "shape":"VM.Standard.A1.Flex",
+  "ocpus":2,
+  "memory_gbs":12,
+  "boot_volume_gbs":100,
+  "total_storage_limit_gbs":200,
+  "image_id":"REPLACE_CURRENT_UBUNTU_ARM64_IMAGE_OCID",
+  "subnet_id":"REPLACE_PUBLIC_SUBNET_OCID",
+  "ssh_public_key_file":"/home/ubuntu/a1.pub",
+  "telegram_env_file":"/home/ubuntu/a1-telegram.env"
+}

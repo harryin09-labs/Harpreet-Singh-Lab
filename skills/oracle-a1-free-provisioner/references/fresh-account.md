@@ -1,0 +1,9 @@
+# Fresh-account workflow
+
+1. Confirm Oracle account plan in Console **Billing & Cost Management > Upgrade and Manage Payment > Subscription Information / Plan Type** (menu naming may change); confirm tenancy HOME region. An Identity Domain labeled `Free` does not prove Compute Free Tier. Verify current Free Tier conditions on official OCI documentation.
+2. Inventory all compartments, existing instances and volumes. Determine whether user already has suitable always-on Linux watcher: prefer existing compatible E2. Fresh E2 is optional and only if free-eligible, quota permits, host capacity exists, and user explicitly approves. E2 availability is not guaranteed.
+3. If no watcher host, guide the user through an E2.1.Micro creation in the same home region, with Ubuntu x86_64, minimal boot volume meeting current OCI minimum, SSH key, public subnet, and locked-down ingress. Ensure combined E2+A1 storage is <= verified free storage budget. **Do not forcibly create another VM when quota or storage is exceeded**. If no E2 capacity, offer manual Cloud Shell A1 launch attempts or an explicitly approved alternate host; Cloud Shell alone is not a persistent scheduler.
+4. Network: create VCN / Internet Gateway / route table / public subnet only when absent; verify each resource before creating to avoid duplicates. Set ingress 22 to the user's source IP where practicable, and never open 80/443 unnecessarily. Verify route and public IP assignment.
+5. Set instance principal: dynamic group matching exact E2 OCID, narrow IAM policy; test read-only Compute access before attempts.
+6. Follow `existing-e2.md` steps 4-9 to configure watcher, lock, retries, optional Telegram and hardening of *new A1* when created.
+7. For E2 and A1 SSH keys: generate and back up locally, never ship private keys in skill files. Avoid destroying working credential. Test connection before security changes.

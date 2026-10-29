@@ -1,0 +1,11 @@
+# Existing E2 Micro workflow
+
+1. SSH into user's E2 through existing trusted key; avoid putting E2 private key into Cloud Shell. Confirm `hostname`, `free -h`, `df -h /`, `docker stats --no-stream`. Stop if memory/disk too tight. Never confuse Cloud Shell's `free -h` with the E2 host metrics.
+2. On E2, install isolated venv and OCI SDK; test `InstancePrincipalsSecurityTokenSigner`. Authentication success does **not** imply Compute IAM authorization.
+3. In Cloud Shell, list dynamic groups, inspect `matching-rule` via `oci iam dynamic-group get`, inspect policy statements. Create exact instance-ID dynamic group if none, and scope compute, image, network and volume permissions to an appropriate compartment. Note OCI permissions can propagate slowly. Verify read-only Compute `get_instance` from E2. Avoid broad tenancy-wide `manage instance-family` if least-privilege options work.
+4. Discover AD (`get_instance().availability_domain`), VNIC attachment, subnet, VCN, inbound security rules, public IP and compatible ARM64 image. Do not assume E2 image is compatible with A1.
+5. List boot and block volumes in ALL active compartments and relevant ADs; cross-check OCI Console and backups. Calculate total planned allocation and keep within actual Free Tier allowance. Watch backups/billing separately.
+6. Copy SSH **public** key to E2 using `scp` from user's workstation. Config file is private (`chmod 600`). Telegram bot token stored in `a1-telegram.env` with mode 600. Test Telegram separately without printing token.
+7. Copy launcher/config to E2; dry run and test oneshot. Install and enable timer in dry-run first. After approval, explicitly add `--launch` to service, reload daemon, perform one controlled service launch. Capacity response is normal and retryable; 404 usually means IAM, 500 Out of host capacity is transient. Inspect markers before resuming timer.
+8. Reconcile pending marker: list Compute instances by exact compartment/name/shape and inspect work requests/console. Never clear a pending marker merely because `list_instances` is currently empty (eventual consistency).
+9. E2 memory: hourly Python SDK process runs briefly; monitor OOM/swap use and service exit states. Protect production services.
